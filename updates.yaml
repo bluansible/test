@@ -6,7 +6,7 @@
       name: "*"
       state: latest
       exclude: kernel*
-   - name: APT updates
+  - name: APT updates
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     apt:
       name: "*"
