@@ -1,4 +1,4 @@
-- hosts: KEYSOK
+- hosts: TESTS
 
   tasks:
     - mail:
