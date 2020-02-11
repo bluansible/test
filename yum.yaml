@@ -4,4 +4,4 @@
     yum:
       name: "*"
       state: latest
-      exclude: git*
+      exclude: kernel*
