@@ -10,4 +10,4 @@
         to: ivo.bacco@bluvacanze.it
         attach: /tmp/oscap-report.html
         charset: utf8
-    delegate_to: localhost
+      delegate_to: localhost
