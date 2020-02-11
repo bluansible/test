@@ -13,10 +13,6 @@
     apt:
       name: "*"
       state: latest
-      autoclean: yes
-      autoremove: yes
-      update_cache: yes
-      upgrade: dist
       
   - name: APT updates (dist-upgrade)
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
