@@ -27,7 +27,7 @@
           - name: Add host to multiple groups
             when: result is succeeded
             add_host:
-                hostname: {{ inventory_hostname }}
+                hostname: '{{ inventory_hostname }}'
                 groups:
                   - KEYSOK
           # restart sshd
