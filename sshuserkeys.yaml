@@ -22,7 +22,7 @@
                 state=present"
           - name: Setup | authorized key upload
             authorized_key: user={{ createuser }}
-                key="{{ lookup('file', '/home/ansibleops/.ssh/id_rsa.pub') }}"
+                key="{{ lookup('file', 'id_rsa.pub') }}"
                 path='/home/{{ createuser }}/.ssh/authorized_keys'
                 manage_dir=no
           # restart sshd
