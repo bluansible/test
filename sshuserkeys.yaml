@@ -3,10 +3,6 @@
   vars: 
     createuser: 'ansibleops'
   tasks:
-          # create users for us
-          # note user vivek added to sudo group 
-          # on many system you may need to use wheel 
-          # user in sudo or wheel group can sudo
           - user:
                   name: ansibleops
                   comment: "Ansible Automation credential"
@@ -14,13 +10,16 @@
                   append: yes
                   ## run command 'mkpasswd --method=sha-512' to create your own encrypted password ##
                   password: $6$tcUj/FyNqZb77q03$aPxJWUFsanGfSuNlZbKXhKEnSc/0m4R7DSGdaod4makt8cVn.8894fQkH5v526pDOH9wcGwR7gBvAGYOcU8JB1
+                  register: result
           - name: 3. Add remote user to sudoers
+            when: result is succeeded
             lineinfile:
                 "dest=/etc/sudoers
                 regexp='^remote ALL'
                 line='ansibleops ALL=(ALL) NOPASSWD: ALL'
                 state=present"
           - name: Setup | authorized key upload
+            when: result is succeeded
             authorized_key: user={{ createuser }}
                 key="{{ lookup('file', 'id_rsa.pub') }}"
                 path='/home/{{ createuser }}/.ssh/authorized_keys'
