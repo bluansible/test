@@ -1,48 +1,27 @@
 ---
- - hosts: all
-   # vars:
-   #   - provision_password: '$6$w9S3t7x1kRtmG0u$6nVU9KZsC12Q8DYI4FtgKPy.e/cq/jseB/.DViTO1SpUnoCy.dxcOf8hyfitGq5V0yhgXccxzlqm2o.I3SlDJ0'
-   # gather_facts: no
+- hosts: all
+  vars:
+    - ansadm_password: '$6$tcUj/FyNqZb77q03$aPxJWUFsanGfSuNlZbKXhKEnSc/0m4R7DSGdaod4makt8cVn.8894fQkH5v526pDOH9wcGwR7gBvAGYOcU8JB1'
+  gather_facts: no
+
+  tasks:
+
+  - name: 1. Add user ANSADM
+    user:
+         name=ansibleops
+         password={{ ansadm_password }}
+   
+  - name: 2. Change Expire Password Account to never
+    command: chage -E -1 ansibleops
+          
+  - name: 3. Add remote user to sudoers
+    lineinfile:
+         "dest=/etc/sudoers
+         regexp='^remote ALL'
+         line='ansibleops ALL=(ALL) NOPASSWD: ALL'
+         state=present"
  
-   tasks:
- 
-#   - name: Add a new user named provision
-#     user:
-#          name=provision
-#          password={{ provision_password }}
-# 
-#   - name: Add provision user to the sudoers
-#     copy:
-#          dest: "/etc/sudoers.d/provision"
-#          content: "provision  ALL=(ALL)  NOPASSWD: ALL"
-# 
-#   - name: Deploy SSH Key
-#     authorized_key: user=provision
-#                     key="{{ lookup('file', '/home/provision/.ssh/id_rsa.pub') }}"
-#                     state=present
-# 
-   - name: Enable Password Authentication
-     lineinfile:
-           dest=/etc/ssh/sshd_config
-           regexp='^PasswordAuthentication'
-           line="PasswordAuthentication yes"
-           state=present
-           backup=yes
-     notify:
-       - restart ssh
- 
-   - name: Disable Root Login
-     lineinfile:
-           dest=/etc/ssh/sshd_config
-           regexp='^PermitRootLogin'
-           line="PermitRootLogin no"
-           state=present
-           backup=yes
-     notify:
-       - restart ssh
- 
-   handlers:
-   - name: restart ssh
-     service:
-       name=sshd
-       state=restarted
+  - name: 4. install ssh key
+    authorized_key: user=ansibleops 
+                    key="{{ lookup('file', '/home/ansibleops/.ssh/id_rsa.pub') }}" 
+                    state=present    
