@@ -19,9 +19,7 @@
     apt:
       upgrade: dist
       
-  - name: APT updates (clean)
+  - name: APT updates (remove olds)
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     apt:
-      autoclean: yes
       autoremove: yes
-      update_cache: yes
