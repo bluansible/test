@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars: 
+    createuser: 'ansibleops'
   tasks:
           # create users for us
           # note user vivek added to sudo group 
@@ -18,12 +20,11 @@
                 regexp='^remote ALL'
                 line='ansibleops ALL=(ALL) NOPASSWD: ALL'
                 state=present"
-          # upload ssh key                
-          - authorized_key:
-                  user: ansibleops
-                  state: present
-                  manage_dir: yes
-                  key: "{{ lookup('file', '/home/ansibleops/.ssh/id_rsa.pub') }}"
+          - name: Setup | authorized key upload
+            authorized_key: user={{ createuser }}
+                key="{{ lookup('file', '/home/ansibleops/.ssh/id_rsa.pub') }}"
+                path='/home/{{ createuser }}/.ssh/authorized_keys'
+                manage_dir=no
           # restart sshd
           - service:
                   name: sshd
