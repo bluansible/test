@@ -1,0 +1,14 @@
+- hosts: KEYSOK
+  tasks:
+  - name: YUM updates
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
+    yum:
+      name: "*"
+      state: latest
+      exclude: kernel*
+   - name: APT updates
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    apt:
+      name: "*"
+      state: latest
+      exclude: kernel*
