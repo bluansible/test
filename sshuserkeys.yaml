@@ -1,27 +1,27 @@
 ---
 - hosts: all
-  vars:
-    - ansadm_password: '$6$tcUj/FyNqZb77q03$aPxJWUFsanGfSuNlZbKXhKEnSc/0m4R7DSGdaod4makt8cVn.8894fQkH5v526pDOH9wcGwR7gBvAGYOcU8JB1'
-  gather_facts: no
-
   tasks:
-
-  - name: 1. Add user ANSADM
-    user:
-         name=ansibleops
-         password={{ ansadm_password }}
-   
-  - name: 2. Change Expire Password Account to never
-    command: chage -E -1 ansibleops
-          
-  - name: 3. Add remote user to sudoers
-    lineinfile:
-         "dest=/etc/sudoers
-         regexp='^remote ALL'
-         line='ansibleops ALL=(ALL) NOPASSWD: ALL'
-         state=present"
- 
-  - name: 4. install ssh key
-    authorized_key: user=ansibleops 
-                    key="{{ lookup('file', '/home/ansibleops/.ssh/id_rsa.pub') }}" 
-                    state=present    
+          # create users for us
+          # note user vivek added to sudo group 
+          # on many system you may need to use wheel 
+          # user in sudo or wheel group can sudo
+          - user:
+                  name: ansibleops
+                  comment: "Ansible Automation credential"
+                  shell: /bin/bash
+                  groups: sudo
+                  append: yes
+                  generate_ssh_key: yes
+                  ## run command 'mkpasswd --method=sha-512' to create your own encrypted password ##
+                  password: $6$tcUj/FyNqZb77q03$aPxJWUFsanGfSuNlZbKXhKEnSc/0m4R7DSGdaod4makt8cVn.8894fQkH5v526pDOH9wcGwR7gBvAGYOcU8JB1
+                  ssh_key_type: rsa
+          # upload ssh key                
+          - authorized_key:
+                  user: ansibleops
+                  state: present
+                  manage_dir: yes
+                  key: "{{ lookup('file', '/home/ansibleops/.ssh/id_rsa.pub') }}"
+          # restart sshd
+          - service:
+                  name: sshd
+                  state: restarted
