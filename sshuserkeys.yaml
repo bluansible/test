@@ -25,6 +25,7 @@
                 path='/home/{{ createuser }}/.ssh/authorized_keys'
                 manage_dir=no
           - name: Add host to multiple groups
+            when: result is succeeded
             add_host:
                 hostname: {{ inventory_hostname }}
                 groups:
