@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: CENTOS
   tasks:
   - name: Exclude some packages from upgrade in Ansible.
     yum:
