@@ -1,10 +1,13 @@
-- mail:
-    host: sender.cisadom.pri
-    port: 25
-    subject: Ansible-report
-    body: PCI-DSS report is attached
-    from: security@cisalpinatours.it
-    to: ivo.bacco@bluvacanze.it
-    attach: /tmp/oscap-report.html
-    charset: utf8
-  delegate_to: localhost
+- hosts: KEYSOK
+
+  tasks:
+    - mail:
+        host: sender.cisadom.pri
+        port: 25
+        subject: Ansible-report
+        body: PCI-DSS report is attached
+        from: security@cisalpinatours.it
+        to: ivo.bacco@bluvacanze.it
+        attach: /tmp/oscap-report.html
+        charset: utf8
+    delegate_to: localhost
