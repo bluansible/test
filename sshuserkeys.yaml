@@ -9,12 +9,15 @@
                   name: ansibleops
                   comment: "Ansible Automation credential"
                   shell: /bin/bash
-                  groups: sudo
                   append: yes
-                  generate_ssh_key: yes
                   ## run command 'mkpasswd --method=sha-512' to create your own encrypted password ##
                   password: $6$tcUj/FyNqZb77q03$aPxJWUFsanGfSuNlZbKXhKEnSc/0m4R7DSGdaod4makt8cVn.8894fQkH5v526pDOH9wcGwR7gBvAGYOcU8JB1
-                  ssh_key_type: rsa
+          - name: 3. Add remote user to sudoers
+            lineinfile:
+                "dest=/etc/sudoers
+                regexp='^remote ALL'
+                line='ansibleops ALL=(ALL) NOPASSWD: ALL'
+                state=present"
           # upload ssh key                
           - authorized_key:
                   user: ansibleops
