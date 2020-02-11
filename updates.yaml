@@ -11,4 +11,6 @@
     apt:
       name: "*"
       state: latest
-      exclude: kernel*
+      autoclean: yes
+      autoremove: yes
+      update_cache: yes
