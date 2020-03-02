@@ -1,0 +1,7 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - shell: wget https://raw.githubusercontent.com/Microsoft/OMS-Agent-for-Linux/master/installer/scripts/onboard_agent.sh && sh onboard_agent.sh -w fbc1c1a0-40df-449b-98c3-317a56d2c153 -s wcp81jtnrUN0HNgM2hhNVO0+WxfbOR/7PuNaCgWsohqihukZ2gCc9jheVQJ9MzJ4MR4bCt+pwIV7Xb4RNdlxkQ== -d opinsights.azure.com
+      register: oms
+
+    - debug: var=oms.stdout_lines
