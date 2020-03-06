@@ -1,4 +1,7 @@
-- name: install ntpdate
-  package:
-    name: tshark
-    state: present
+- hosts: KEYSOK
+  task: 
+  
+  - name: install ntpdate
+      package:
+      name: tshark
+      state: present
