@@ -1,7 +1,7 @@
-- hosts: KEYSOK
-  task: 
+- hosts: Perimetro_CDE
+  tasks:
   
-  - name: install ntpdate
-      package:
+  - name: tshark install
+    package:
       name: tshark
       state: present
