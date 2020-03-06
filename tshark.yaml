@@ -1,9 +1,14 @@
 - hosts: Perimetro_CDE
   tasks:
   
-  - name: tshark install
+  - name: YUM updates
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
     package:
-      name: 
-      - tshark
-      - wireshark
+      name: "wireshark"
+      state: present
+      
+  - name: APT updates
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    package:
+      name: "tshark"
       state: present
