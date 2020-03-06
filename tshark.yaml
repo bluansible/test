@@ -14,4 +14,4 @@
       state: present
 
   - name: run TSHARK capture
-    shell: tshark -q -c 1000 -T ek -e frame.protocols -e frame.interface_name -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.expert.message -e tcp.flags -e ip.proto -e udp.srcport -e udp.dstport 2> /dev/null | sed 's\/, '_type': 'pcap_file"\/\/g' | curl -s -X POST -H "Content-Type:application/json" --data-binary @- 10.1.120.25:9200/_bulk > /dev/null 2>&1 & sleep 1
+    shell: tshark -q -c 1000 -T ek -e frame.protocols -e frame.interface_name -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.expert.message -e tcp.flags -e ip.proto -e udp.srcport -e udp.dstport 2> /dev/null | sed 's\/, "_type": "pcap_file"\/\/g' | curl -s -X POST -H "Content-Type:application/json" --data-binary @- 10.1.120.25:9200/_bulk > /dev/null 2>&1 & sleep 1
