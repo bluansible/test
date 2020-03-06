@@ -3,5 +3,7 @@
   
   - name: tshark install
     package:
-      name: tshark
+      name: 
+      - tshark
+      - wireshark
       state: present
